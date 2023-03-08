@@ -172,9 +172,11 @@ class YOLOLayer(nn.Module):
         pred_boxes[..., 2] = torch.exp(w.data) * self.anchor_w
         pred_boxes[..., 3] = torch.exp(h.data) * self.anchor_h
         
-        # pred_boxes = pred_boxes.to(torch.device('cuda:2'))
-        self.stride = self.stride.to(torch.device('cuda:2'))
-        self.num_classes = self.num_classes.to(torch.device('cuda:2'))
+        pred_boxes = pred_boxes.to(torch.device('cuda:2'))
+        pred_conf = pred_conf.to(torch.device('cuda:2'))
+        pred_cls = pred_cls.to(torch.device('cuda:2'))
+        #self.stride = self.stride.to(torch.device('cuda:2'))
+        #self.num_classes = self.num_classes.to(torch.device('cuda:2'))
         output = torch.cat(
             (
                 pred_boxes.view(num_samples, -1, 4) * self.stride,
